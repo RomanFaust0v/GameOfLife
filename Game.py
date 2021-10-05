@@ -16,6 +16,8 @@ class Game:
         self.deadImg = pygame.transform.scale(self.deadImg, self.cellSize)
         self.solver = Solver(self.board)
 
+    # Main run function
+
     def run(self):
         running = True
         start = False
@@ -24,14 +26,18 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+                # If left mouse pressed - change live/dead cell on board
                 if pygame.mouse.get_pressed(num_buttons=3)[0] == 1:
                     self.handleClick(pygame.mouse.get_pos())
                 if event.type == pygame.MOUSEBUTTONUP:
                     if event.button == 1:
+                        # prevent multiple clicks on same cell
                         self.board.lastClicked.notClicked()
                 if event.type == pygame.KEYDOWN:
+                    # 'Space' key starts/stops game
                     if event.key == pygame.K_SPACE:
                         start = not start
+                    # 'R' key reset board 
                     if event.key == pygame.K_r:
                         self.board.resetBoard()
             if start:
@@ -41,7 +47,7 @@ class Game:
             self.draw()
             pygame.display.flip()
         pygame.quit()
-
+    
     def draw(self):
         topLeft = (0, 0)
         for row in range(self.board.getSize()[0]):
